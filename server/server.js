@@ -1,6 +1,8 @@
 require('./config/config'); //configura lo que se encuentre en el archivo config
 
-const express = require('express')
+const express = require('express');
+const mongoose = require('mongoose');
+
 const app = express();
 
 const bodyParser = require('body-parser');
@@ -10,37 +12,16 @@ app.use(bodyParser.urlencoded({ extended: false })) //use - funcion que se dispa
 // parse application/json
 app.use(bodyParser.json())
 
-app.get('/usuario', function(req, res) {
-    res.json('get Usuario');
-});
+app.use(require('./routes/routes_usuario'));
 
-app.post('/usuario', function(req, res) {
 
-    let body = req.body; //es el body, cuando el bodyparser procese cualquier pedido que reciban las peticiones
+mongoose.connect(process.env.URLDB, { useNewUrlParser: true, useCreateIndex: true },
+    (err, res) => {
+        if (err) throw err;
+        console.log('Base de datos ONLINE');
 
-    if (body.nombre === undefined) {
-        res.status(400).json({
-            ok: false,
-            mensaje: 'El nombre es necesario'
-        });
-    } else {
-        res.json({
-            persona: body
-        });
-    }
-
-});
-
-app.put('/usuario/:id', function(req, res) {
-    let id = req.params.id; // el .id debe ser igual al /:id
-    res.json({
-        id
     });
-});
 
-app.delete('/usuario', function(req, res) {
-    res.json('delete Usuario');
-});
 
 app.listen(process.env.PORT, () => {
     console.log('Escuchando puerto: ', process.env.PORT);
