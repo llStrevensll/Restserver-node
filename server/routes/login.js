@@ -31,8 +31,12 @@ app.post('/login', (req, res) => {
                 }
             });
         }
+        /* console.log(body.password);
+        console.log(usuarioDB.password);
+        let matchpass = bcrypt.compareSync(body.password, usuarioDB.password);
+        console.log(matchpass); */
 
-        if (!bcrypt.compareSync(body.password, usuarioDB.password)) { //retorna true si la contraseña hace match con la constrasela de la BD
+        if (!bcrypt.compareSync(body.password, usuarioDB.password)) { //retorna true si la contraseña hace match con la constraseña de la BD
             return res.status(400).json({
                 ok: false,
                 err: {
