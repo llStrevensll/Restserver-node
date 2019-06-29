@@ -139,6 +139,8 @@ app.put('/productos/:id', verificaToken, (req, res) => {
     let id = req.params.id;
     let body = req.body;
 
+    console.log(id);
+
     Producto.findById(id, (err, productoDB) => {
         if (err) {
             return res.status(500).json({
@@ -160,6 +162,9 @@ app.put('/productos/:id', verificaToken, (req, res) => {
         productoDB.categoria = body.categoria;
         productoDB.disponible = body.disponible;
         productoDB.descripcion = body.descripcion;
+
+        console.log(productoDB.categoria);
+
 
         productoDB.save((err, productoGuardado) => {
             if (err) {
